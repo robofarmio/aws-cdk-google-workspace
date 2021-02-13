@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+
+  dev:
+    build: .
+    image: robofarm/aws-cdk-google-workspace
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/home/node/app/
