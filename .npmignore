@@ -1,5 +1,5 @@
 *
 !dist/**/*
-!package.json
+!package*.json
 !README.md
 !LICENSE.md
