@@ -1,6 +1,6 @@
 FROM node:14-buster-slim
 
-ENV NODE_ENV=development
+ENV NODE_ENV=development NPM_TOKEN=""
 
 USER 1000
 RUN mkdir /home/node/app && chown node:node -R /home/node/app
