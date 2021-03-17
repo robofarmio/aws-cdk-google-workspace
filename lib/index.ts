@@ -31,23 +31,15 @@ export class GoogleWorkspace extends Construct {
       ttl: Duration.hours(24),
     });
 
-    new TxtRecord(this, "SPF", {
-      values: [
-        "v=spf1 include:_spf.google.com ~all",
-      ],
-      zone: props.hostedZone,
-      recordName: props.recordName,
-      ttl: Duration.hours(24),
-    });
-
     // https://support.google.com/a/answer/183895
 
-    new TxtRecord(this, "Verify", {
+    new TxtRecord(this, "TXT", {
       values: [
+        "v=spf1 include:_spf.google.com ~all",
         props.verificationCode,
       ],
       zone: props.hostedZone,
-      recordName: undefined,  // root zone
+      recordName: props.recordName,
       ttl: Duration.hours(24),
     });
   }
