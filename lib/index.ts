@@ -8,7 +8,7 @@ export interface GoogleWorkspaceProps {
   // The domain name to set up for Google Workspace (default: zone root)
   readonly recordName?: string;
   // The verification code to set up for Google Workspace
-  readonly verificationCode: string;
+  readonly verificationCode?: string;
   // If this stack should manage the SPF record for this domain.
   // Because there can only be one SPF record per domain,
   // you might want to manage it externally yourself.
@@ -38,19 +38,23 @@ export class GoogleWorkspace extends Construct {
 
     // https://support.google.com/a/answer/183895
 
-    const values = [
-      props.verificationCode,
-    ];
+    const values = [];
 
     if (props.manageSpfRecord === undefined || props.manageSpfRecord) {
       values.push("v=spf1 include:_spf.google.com ~all");
     }
 
-    new TxtRecord(this, "TXT", {
-      values: values,
-      zone: props.hostedZone,
-      recordName: props.recordName,
-      ttl: Duration.hours(24),
-    });
+    if (props.verificationCode) {
+      values.push(props.verificationCode);
+    }
+
+    if (values.length != 0) {
+      new TxtRecord(this, "TXT", {
+        values: values,
+        zone: props.hostedZone,
+        recordName: props.recordName,
+        ttl: Duration.hours(24),
+      });
+    }
   }
 }
